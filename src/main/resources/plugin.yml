@@ -1,0 +1,3 @@
+name: OpenAiGPTChatBot
+main: org.ivance.chatbot.ChatBotPluginMain
+version: 1.0

@@ -1,0 +1,37 @@
+plugins {
+    id 'java'
+    id 'org.jetbrains.kotlin.jvm' version '1.6.10'
+    id "com.github.johnrengelman.shadow" version "7.1.2"
+}
+
+group 'org.ivance'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    /* Main */
+    compileOnly 'net.mamoe:mirai-core:2.13.2'
+    compileOnly 'net.mamoe:mirai-console:2.13.2'
+
+    implementation 'com.theokanning.openai-gpt3-java:api:0.8.1'
+    implementation 'com.theokanning.openai-gpt3-java:client:0.8.1'
+
+    /* Test */
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.0'
+    testCompileOnly 'org.junit.jupiter:junit-jupiter-params:5.9.0'
+}
+
+shadowJar {
+    dependencies {
+        exclude 'net.mamoe:mirai-core:2.13.2'
+        exclude 'net.mamoe:mirai-console:2.13.2'
+    }
+}
+
+test {
+    useJUnitPlatform()
+}
