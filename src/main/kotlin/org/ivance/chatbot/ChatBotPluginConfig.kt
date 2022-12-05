@@ -25,6 +25,11 @@ object ChatBotPluginConfig : ReadOnlyPluginConfig("ChatBotPluginConfig") {
     val triggerWords: List<String> by value(listOf("what is", "how to"))
 
     @ValueDescription("""
+        Number of retries on request timeout
+    """)
+    val numRetries: Int by value(3)
+
+    @ValueDescription("""
         The name of the model to use.
         Required if specifying a fine tuned model or if using the new v1/completions endpoint.
     """)
