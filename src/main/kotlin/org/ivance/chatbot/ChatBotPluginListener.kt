@@ -4,21 +4,21 @@ import com.theokanning.openai.OpenAiService
 import com.theokanning.openai.completion.CompletionRequest
 import net.mamoe.mirai.event.GlobalEventChannel
 import net.mamoe.mirai.event.events.MessageEvent
-import net.mamoe.mirai.message.data.At
-import net.mamoe.mirai.message.data.content
+import net.mamoe.mirai.message.data.*
 import org.ivance.chatbot.ChatBotPluginConfig.frequencyPenalty
 import org.ivance.chatbot.ChatBotPluginConfig.maxTokens
 import org.ivance.chatbot.ChatBotPluginConfig.model
 import org.ivance.chatbot.ChatBotPluginConfig.numRetries
 import org.ivance.chatbot.ChatBotPluginConfig.presencePenalty
+import org.ivance.chatbot.ChatBotPluginConfig.quoteWhenReply
+import org.ivance.chatbot.ChatBotPluginConfig.requestFailureErrorMessage
+import org.ivance.chatbot.ChatBotPluginConfig.socketTimeout
 import org.ivance.chatbot.ChatBotPluginConfig.temperature
 import org.ivance.chatbot.ChatBotPluginConfig.topProb
 import org.ivance.chatbot.ChatBotPluginConfig.triggerPrefixes
 import org.ivance.chatbot.ChatBotPluginConfig.triggerWords
 import retrofit2.HttpException
-import java.io.IOException
 import java.net.SocketTimeoutException
-import java.util.*
 
 internal object ChatBotPluginListener {
 
@@ -28,7 +28,7 @@ internal object ChatBotPluginListener {
     fun init(context: ChatBotPluginMain) {
         this.context = context
         context.logger.info("Initializing OpenAI service")
-        this.service = OpenAiService(ChatBotPluginConfig.token)
+        this.service = OpenAiService(ChatBotPluginConfig.token, socketTimeout)
         try {
             context.logger.info("Available models: ${this.service.listModels().map { it.root }}")
         } catch (exception: HttpException) {
@@ -49,7 +49,11 @@ internal object ChatBotPluginListener {
                 for (i in 0 until numRetries) {
                     try {
                         chat(prompt, sender.nick) ?.let {
-                            subject.sendMessage(At(subject.id) + it)
+                            if (quoteWhenReply) {
+                                subject.sendMessage(QuoteReply(this.source) + it)
+                            } else {
+                                subject.sendMessage(it)
+                            }
                             return@fetch
                         } ?: run {
                             context.logger.warning("Failed to fetch response, retrying")
@@ -63,7 +67,11 @@ internal object ChatBotPluginListener {
                         }
                     }
                 }
+
                 context.logger.warning("Failed to fetch response after $numRetries retries")
+                if (requestFailureErrorMessage.trim().isNotEmpty()) {
+                    subject.sendMessage(requestFailureErrorMessage)
+                }
             }
         }
     }

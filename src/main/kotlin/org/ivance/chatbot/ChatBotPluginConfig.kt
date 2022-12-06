@@ -25,9 +25,25 @@ object ChatBotPluginConfig : ReadOnlyPluginConfig("ChatBotPluginConfig") {
     val triggerWords: List<String> by value(listOf("what is", "how to"))
 
     @ValueDescription("""
+        Http request timeout in seconds, 0 means no timeout.
+    """)
+    val socketTimeout: Int by value(20)
+
+    @ValueDescription("""
         Number of retries on request timeout
     """)
     val numRetries: Int by value(3)
+
+    @ValueDescription("""
+        Message sent when a request fails after `numRetries` retries.
+        An empty string means do not send fail message.
+    """)
+    val requestFailureErrorMessage: String by value("")
+
+    @ValueDescription("""
+        Quote the orignal message when sending reply.
+    """)
+    val quoteWhenReply: Boolean by value(true)
 
     @ValueDescription("""
         The name of the model to use.
@@ -39,8 +55,9 @@ object ChatBotPluginConfig : ReadOnlyPluginConfig("ChatBotPluginConfig") {
         The maximum number of tokens to generate.
         Requests can use up to 2048 tokens shared between prompt and completion.
         (One token is roughly 4 characters for normal English text)
+        Notice that a large `maxToken` value may cause request timeout.
     """)
-    val maxTokens: Int by value(150)
+    val maxTokens: Int by value(300)
 
     @ValueDescription("""
         What sampling temperature to use. Higher values means the model will take more risks.

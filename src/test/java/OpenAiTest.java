@@ -16,14 +16,14 @@ public class OpenAiTest {
             Objects.requireNonNull(getClass().getResourceAsStream("openai-token")
         ).readAllBytes(), StandardCharsets.UTF_8);
 
-        OpenAiService service = new OpenAiService(token);
+        OpenAiService service = new OpenAiService(token, 15);
         System.out.println(service.listModels());
 
         var completionRequest = CompletionRequest.builder()
             .model("text-davinci-003").echo(true)
             .prompt("What is GPT-3?")
             .temperature(0.9)
-            .maxTokens(150)
+            .maxTokens(200)
             .topP(1.0)
             .frequencyPenalty(0.0)
             .presencePenalty(0.6)

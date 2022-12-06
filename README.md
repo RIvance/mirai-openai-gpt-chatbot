@@ -49,8 +49,19 @@
 
 See https://zhuanlan.zhihu.com/p/589287744
 
-### How to get an OpenAI API Key
+### How to get an OpenAI API Key?
 
 Visit https://beta.openai.com/account/api-keys
 
 ![](./assets/api-key.png)
+
+### Why is the reply incomplete?
+
+Please change the `maxToken` attribute in the config file:
+```yml
+# The maximum number of tokens to generate.
+# Requests can use up to 2048 tokens shared between prompt and completion.
+# (One token is roughly 4 characters for normal English text)
+# Notice that a large `maxToken` value may cause request timeout.
+maxTokens: 500
+```
