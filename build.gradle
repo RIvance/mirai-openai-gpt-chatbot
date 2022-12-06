@@ -5,7 +5,7 @@ plugins {
 }
 
 group 'org.ivance'
-version 'v0.1'
+version 'v0.2'
 
 repositories {
     mavenCentral()
