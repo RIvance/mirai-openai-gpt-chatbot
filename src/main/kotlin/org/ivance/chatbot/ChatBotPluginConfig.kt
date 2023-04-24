@@ -13,6 +13,11 @@ object ChatBotPluginConfig : ReadOnlyPluginConfig("ChatBotPluginConfig") {
     val token: String by value("YOUR_OPENAI_API_KEY_HERE")
 
     @ValueDescription("""
+        Proxy to use when sending requests.
+    """)
+    val proxy: String by value("")
+
+    @ValueDescription("""
         Prefixes used to trigger the response.
         e.g. "/chat How are you today?"
     """)

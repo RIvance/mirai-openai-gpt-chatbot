@@ -5,7 +5,7 @@ plugins {
 }
 
 group 'org.ivance'
-version 'v0.2'
+version 'v0.3'
 
 repositories {
     mavenCentral()
@@ -13,11 +13,15 @@ repositories {
 
 dependencies {
     /* Main */
-    compileOnly 'net.mamoe:mirai-core:2.13.2'
-    compileOnly 'net.mamoe:mirai-console:2.13.2'
+    compileOnly 'net.mamoe:mirai-core:2.14.0'
+    compileOnly 'net.mamoe:mirai-console:2.14.0'
 
-    implementation 'com.theokanning.openai-gpt3-java:api:0.8.1'
-    implementation 'com.theokanning.openai-gpt3-java:client:0.8.1'
+    implementation 'com.theokanning.openai-gpt3-java:api:0.12.0'
+    implementation 'com.theokanning.openai-gpt3-java:client:0.12.0'
+    implementation 'com.theokanning.openai-gpt3-java:service:0.12.0'
+    implementation 'com.fasterxml.jackson.core:jackson-core:2.13.4'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.4'
+    implementation 'com.fasterxml.jackson.core:jackson-annotations:2.13.4'
 
     /* Test */
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.0'
@@ -27,8 +31,8 @@ dependencies {
 
 shadowJar {
     dependencies {
-        exclude 'net.mamoe:mirai-core:2.13.2'
-        exclude 'net.mamoe:mirai-console:2.13.2'
+        exclude 'net.mamoe:mirai-core:2.14.0'
+        exclude 'net.mamoe:mirai-console:2.14.0'
     }
 }
 
